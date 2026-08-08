@@ -11,7 +11,7 @@ import {
 } from '#/components/ui/card'
 import { Alert, AlertDescription } from '#/components/ui/alert'
 
-export const Route = createFileRoute('/demo/posthog')({
+export const Route = createFileRoute('/integrations/posthog')({
   component: PostHogDemo,
 })
 

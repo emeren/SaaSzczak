@@ -11,7 +11,7 @@ import {
 } from '#/components/ui/card'
 import { Alert, AlertDescription } from '#/components/ui/alert'
 
-export const Route = createFileRoute('/demo/stripe')({
+export const Route = createFileRoute('/integrations/stripe')({
   component: DemoStripe,
 })
 
@@ -79,7 +79,7 @@ function DemoStripe() {
               <AlertDescription>
                 Sign in first at{' '}
                 <code className="rounded border border-border bg-muted px-1.5 py-0.5 text-[0.9em]">
-                  /demo/better-auth
+                  /integrations/better-auth
                 </code>
                 .
               </AlertDescription>

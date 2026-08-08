@@ -18,13 +18,13 @@ const getTodos = createServerFn({
 const createTodo = createServerFn({
   method: 'POST',
 })
-  .inputValidator((data: { title: string }) => data)
+  .validator((data: { title: string }) => data)
   .handler(async ({ data }) => {
     await db.insert(todos).values({ title: data.title })
     return { success: true }
   })
 
-export const Route = createFileRoute('/demo/drizzle')({
+export const Route = createFileRoute('/integrations/drizzle')({
   component: DemoDrizzle,
   loader: async () => await getTodos(),
 })
@@ -33,7 +33,7 @@ function DemoDrizzle() {
   const router = useRouter()
   const todoList = Route.useLoaderData()
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.target as HTMLFormElement)
     const title = formData.get('title') as string

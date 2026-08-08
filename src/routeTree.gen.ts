@@ -13,12 +13,12 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as ApiCheckoutRouteImport } from './routes/api/checkout'
 import { Route as ApiStripeWebhookRouteImport } from './routes/api/stripe-webhook'
-import { Route as DemoBetterAuthRouteImport } from './routes/demo/better-auth'
-import { Route as DemoDrizzleRouteImport } from './routes/demo/drizzle'
-import { Route as DemoPosthogRouteImport } from './routes/demo/posthog'
-import { Route as DemoStripeRouteImport } from './routes/demo/stripe'
+import { Route as IntegrationsBetterAuthRouteImport } from './routes/integrations/better-auth'
+import { Route as IntegrationsDrizzleRouteImport } from './routes/integrations/drizzle'
+import { Route as IntegrationsPosthogRouteImport } from './routes/integrations/posthog'
+import { Route as IntegrationsStripeRouteImport } from './routes/integrations/stripe'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
-import { Route as DemoSentryTestingRouteImport } from './routes/demo/sentry.testing'
+import { Route as IntegrationsSentryTestingRouteImport } from './routes/integrations/sentry.testing'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -40,24 +40,24 @@ const ApiStripeWebhookRoute = ApiStripeWebhookRouteImport.update({
   path: '/api/stripe-webhook',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoBetterAuthRoute = DemoBetterAuthRouteImport.update({
-  id: '/demo/better-auth',
-  path: '/demo/better-auth',
+const IntegrationsBetterAuthRoute = IntegrationsBetterAuthRouteImport.update({
+  id: '/integrations/better-auth',
+  path: '/integrations/better-auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoDrizzleRoute = DemoDrizzleRouteImport.update({
-  id: '/demo/drizzle',
-  path: '/demo/drizzle',
+const IntegrationsDrizzleRoute = IntegrationsDrizzleRouteImport.update({
+  id: '/integrations/drizzle',
+  path: '/integrations/drizzle',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoPosthogRoute = DemoPosthogRouteImport.update({
-  id: '/demo/posthog',
-  path: '/demo/posthog',
+const IntegrationsPosthogRoute = IntegrationsPosthogRouteImport.update({
+  id: '/integrations/posthog',
+  path: '/integrations/posthog',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoStripeRoute = DemoStripeRouteImport.update({
-  id: '/demo/stripe',
-  path: '/demo/stripe',
+const IntegrationsStripeRoute = IntegrationsStripeRouteImport.update({
+  id: '/integrations/stripe',
+  path: '/integrations/stripe',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
@@ -65,35 +65,36 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoSentryTestingRoute = DemoSentryTestingRouteImport.update({
-  id: '/demo/sentry/testing',
-  path: '/demo/sentry/testing',
-  getParentRoute: () => rootRouteImport,
-} as any)
+const IntegrationsSentryTestingRoute =
+  IntegrationsSentryTestingRouteImport.update({
+    id: '/integrations/sentry/testing',
+    path: '/integrations/sentry/testing',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/api/checkout': typeof ApiCheckoutRoute
   '/api/stripe-webhook': typeof ApiStripeWebhookRoute
-  '/demo/better-auth': typeof DemoBetterAuthRoute
-  '/demo/drizzle': typeof DemoDrizzleRoute
-  '/demo/posthog': typeof DemoPosthogRoute
-  '/demo/stripe': typeof DemoStripeRoute
+  '/integrations/better-auth': typeof IntegrationsBetterAuthRoute
+  '/integrations/drizzle': typeof IntegrationsDrizzleRoute
+  '/integrations/posthog': typeof IntegrationsPosthogRoute
+  '/integrations/stripe': typeof IntegrationsStripeRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
-  '/demo/sentry/testing': typeof DemoSentryTestingRoute
+  '/integrations/sentry/testing': typeof IntegrationsSentryTestingRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/api/checkout': typeof ApiCheckoutRoute
   '/api/stripe-webhook': typeof ApiStripeWebhookRoute
-  '/demo/better-auth': typeof DemoBetterAuthRoute
-  '/demo/drizzle': typeof DemoDrizzleRoute
-  '/demo/posthog': typeof DemoPosthogRoute
-  '/demo/stripe': typeof DemoStripeRoute
+  '/integrations/better-auth': typeof IntegrationsBetterAuthRoute
+  '/integrations/drizzle': typeof IntegrationsDrizzleRoute
+  '/integrations/posthog': typeof IntegrationsPosthogRoute
+  '/integrations/stripe': typeof IntegrationsStripeRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
-  '/demo/sentry/testing': typeof DemoSentryTestingRoute
+  '/integrations/sentry/testing': typeof IntegrationsSentryTestingRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -101,12 +102,12 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/api/checkout': typeof ApiCheckoutRoute
   '/api/stripe-webhook': typeof ApiStripeWebhookRoute
-  '/demo/better-auth': typeof DemoBetterAuthRoute
-  '/demo/drizzle': typeof DemoDrizzleRoute
-  '/demo/posthog': typeof DemoPosthogRoute
-  '/demo/stripe': typeof DemoStripeRoute
+  '/integrations/better-auth': typeof IntegrationsBetterAuthRoute
+  '/integrations/drizzle': typeof IntegrationsDrizzleRoute
+  '/integrations/posthog': typeof IntegrationsPosthogRoute
+  '/integrations/stripe': typeof IntegrationsStripeRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
-  '/demo/sentry/testing': typeof DemoSentryTestingRoute
+  '/integrations/sentry/testing': typeof IntegrationsSentryTestingRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -115,36 +116,36 @@ export interface FileRouteTypes {
     | '/about'
     | '/api/checkout'
     | '/api/stripe-webhook'
-    | '/demo/better-auth'
-    | '/demo/drizzle'
-    | '/demo/posthog'
-    | '/demo/stripe'
+    | '/integrations/better-auth'
+    | '/integrations/drizzle'
+    | '/integrations/posthog'
+    | '/integrations/stripe'
     | '/api/auth/$'
-    | '/demo/sentry/testing'
+    | '/integrations/sentry/testing'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/api/checkout'
     | '/api/stripe-webhook'
-    | '/demo/better-auth'
-    | '/demo/drizzle'
-    | '/demo/posthog'
-    | '/demo/stripe'
+    | '/integrations/better-auth'
+    | '/integrations/drizzle'
+    | '/integrations/posthog'
+    | '/integrations/stripe'
     | '/api/auth/$'
-    | '/demo/sentry/testing'
+    | '/integrations/sentry/testing'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/api/checkout'
     | '/api/stripe-webhook'
-    | '/demo/better-auth'
-    | '/demo/drizzle'
-    | '/demo/posthog'
-    | '/demo/stripe'
+    | '/integrations/better-auth'
+    | '/integrations/drizzle'
+    | '/integrations/posthog'
+    | '/integrations/stripe'
     | '/api/auth/$'
-    | '/demo/sentry/testing'
+    | '/integrations/sentry/testing'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -152,12 +153,12 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   ApiCheckoutRoute: typeof ApiCheckoutRoute
   ApiStripeWebhookRoute: typeof ApiStripeWebhookRoute
-  DemoBetterAuthRoute: typeof DemoBetterAuthRoute
-  DemoDrizzleRoute: typeof DemoDrizzleRoute
-  DemoPosthogRoute: typeof DemoPosthogRoute
-  DemoStripeRoute: typeof DemoStripeRoute
+  IntegrationsBetterAuthRoute: typeof IntegrationsBetterAuthRoute
+  IntegrationsDrizzleRoute: typeof IntegrationsDrizzleRoute
+  IntegrationsPosthogRoute: typeof IntegrationsPosthogRoute
+  IntegrationsStripeRoute: typeof IntegrationsStripeRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
-  DemoSentryTestingRoute: typeof DemoSentryTestingRoute
+  IntegrationsSentryTestingRoute: typeof IntegrationsSentryTestingRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -190,32 +191,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiStripeWebhookRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/better-auth': {
-      id: '/demo/better-auth'
-      path: '/demo/better-auth'
-      fullPath: '/demo/better-auth'
-      preLoaderRoute: typeof DemoBetterAuthRouteImport
+    '/integrations/better-auth': {
+      id: '/integrations/better-auth'
+      path: '/integrations/better-auth'
+      fullPath: '/integrations/better-auth'
+      preLoaderRoute: typeof IntegrationsBetterAuthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/drizzle': {
-      id: '/demo/drizzle'
-      path: '/demo/drizzle'
-      fullPath: '/demo/drizzle'
-      preLoaderRoute: typeof DemoDrizzleRouteImport
+    '/integrations/drizzle': {
+      id: '/integrations/drizzle'
+      path: '/integrations/drizzle'
+      fullPath: '/integrations/drizzle'
+      preLoaderRoute: typeof IntegrationsDrizzleRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/posthog': {
-      id: '/demo/posthog'
-      path: '/demo/posthog'
-      fullPath: '/demo/posthog'
-      preLoaderRoute: typeof DemoPosthogRouteImport
+    '/integrations/posthog': {
+      id: '/integrations/posthog'
+      path: '/integrations/posthog'
+      fullPath: '/integrations/posthog'
+      preLoaderRoute: typeof IntegrationsPosthogRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/stripe': {
-      id: '/demo/stripe'
-      path: '/demo/stripe'
-      fullPath: '/demo/stripe'
-      preLoaderRoute: typeof DemoStripeRouteImport
+    '/integrations/stripe': {
+      id: '/integrations/stripe'
+      path: '/integrations/stripe'
+      fullPath: '/integrations/stripe'
+      preLoaderRoute: typeof IntegrationsStripeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/auth/$': {
@@ -225,11 +226,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/sentry/testing': {
-      id: '/demo/sentry/testing'
-      path: '/demo/sentry/testing'
-      fullPath: '/demo/sentry/testing'
-      preLoaderRoute: typeof DemoSentryTestingRouteImport
+    '/integrations/sentry/testing': {
+      id: '/integrations/sentry/testing'
+      path: '/integrations/sentry/testing'
+      fullPath: '/integrations/sentry/testing'
+      preLoaderRoute: typeof IntegrationsSentryTestingRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -240,12 +241,12 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   ApiCheckoutRoute: ApiCheckoutRoute,
   ApiStripeWebhookRoute: ApiStripeWebhookRoute,
-  DemoBetterAuthRoute: DemoBetterAuthRoute,
-  DemoDrizzleRoute: DemoDrizzleRoute,
-  DemoPosthogRoute: DemoPosthogRoute,
-  DemoStripeRoute: DemoStripeRoute,
+  IntegrationsBetterAuthRoute: IntegrationsBetterAuthRoute,
+  IntegrationsDrizzleRoute: IntegrationsDrizzleRoute,
+  IntegrationsPosthogRoute: IntegrationsPosthogRoute,
+  IntegrationsStripeRoute: IntegrationsStripeRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
-  DemoSentryTestingRoute: DemoSentryTestingRoute,
+  IntegrationsSentryTestingRoute: IntegrationsSentryTestingRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

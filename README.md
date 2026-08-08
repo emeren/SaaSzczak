@@ -51,7 +51,7 @@ This project uses [Tailwind CSS](https://tailwindcss.com/) for styling.
 
 If you prefer not to use Tailwind CSS:
 
-1. Remove the demo pages in `src/routes/demo/`
+1. Remove the demo pages in `src/routes/integrations/`
 2. Replace the Tailwind import in `src/styles.css` with your own styles
 3. Remove `tailwindcss()` from the plugins array in `vite.config.ts`
 4. Remove `@tailwindcss/vite` and `tailwindcss` from `package.json`
@@ -116,7 +116,8 @@ pnpm dlx shadcn@latest add button
    stripe listen --forward-to localhost:3000/api/stripe-webhook
    ```
    Copy the printed signing secret into `STRIPE_WEBHOOK_SECRET`.
-4. Try it at `/demo/stripe` (sign in first at `/demo/better-auth`).
+4. Try it at `/integrations/stripe` (sign in first at
+   `/integrations/better-auth`).
 
 Checkout session creation lives in `src/routes/api/checkout.ts`; webhook
 handling (subscription created/updated/deleted → `subscriptions` table) lives

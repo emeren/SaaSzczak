@@ -36,7 +36,7 @@ export const BetterAuthHeader = memo<BetterAuthHeaderProps>(() => {
   }
 
   return (
-    <Link to="/demo/better-auth" className={styles.SignInLink}>
+    <Link to="/integrations/better-auth" className={styles.SignInLink}>
       Sign in
     </Link>
   )

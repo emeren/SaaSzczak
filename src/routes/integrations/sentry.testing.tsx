@@ -8,7 +8,7 @@ import { Card, CardContent } from '#/components/ui/card'
 import { Alert, AlertDescription, AlertTitle } from '#/components/ui/alert'
 import { Badge } from '#/components/ui/badge'
 
-export const Route = createFileRoute('/demo/sentry/testing')({
+export const Route = createFileRoute('/integrations/sentry/testing')({
   component: RouteComponent,
   errorComponent: ({ error }) => {
     useEffect(() => {

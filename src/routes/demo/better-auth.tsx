@@ -1,6 +1,18 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 import { authClient } from '#/lib/auth-client'
+import { Button } from '#/components/ui/button'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '#/components/ui/card'
+import { Input } from '#/components/ui/input'
+import { Label } from '#/components/ui/label'
+import { Alert, AlertDescription } from '#/components/ui/alert'
 
 export const Route = createFileRoute('/demo/better-auth')({
   component: BetterAuthDemo,
@@ -17,66 +29,75 @@ function BetterAuthDemo() {
 
   if (isPending) {
     return (
-      <main className="demo-page demo-center">
-        <div className="h-5 w-5 animate-spin rounded-full border-2 border-neutral-200 border-t-neutral-900 dark:border-neutral-800 dark:border-t-neutral-100" />
+      <main className="page-wrap flex min-h-[70vh] items-center justify-center px-4">
+        <div className="h-5 w-5 animate-spin rounded-full border-2 border-border border-t-primary" />
       </main>
     )
   }
 
   if (session?.user) {
     return (
-      <main className="demo-page demo-center">
-        <section className="demo-panel w-full max-w-md space-y-6">
-          <div className="space-y-1.5">
+      <main className="page-wrap flex min-h-[70vh] items-center justify-center px-4 py-14">
+        <Card className="w-full max-w-md rounded-2xl">
+          <CardHeader>
             <p className="island-kicker mb-2">Better Auth</p>
-            <h1 className="demo-title">Welcome back</h1>
-            <p className="demo-muted text-sm">
+            <CardTitle className="display-title text-2xl">
+              Welcome back
+            </CardTitle>
+            <CardDescription>
               You're signed in as {session.user.email}
-            </p>
-          </div>
-
-          <div className="flex items-center gap-3">
-            {session.user.image ? (
-              <img src={session.user.image} alt="" className="h-10 w-10" />
-            ) : (
-              <div className="h-10 w-10 bg-neutral-200 dark:bg-neutral-800 flex items-center justify-center">
-                <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">
-                  {session.user.name.charAt(0).toUpperCase() || 'U'}
-                </span>
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="flex items-center gap-3">
+              {session.user.image ? (
+                <img
+                  src={session.user.image}
+                  alt=""
+                  className="h-10 w-10 rounded-full object-cover"
+                />
+              ) : (
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary">
+                  <span className="text-sm font-medium text-secondary-foreground">
+                    {session.user.name.charAt(0).toUpperCase() || 'U'}
+                  </span>
+                </div>
+              )}
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-sm font-medium">
+                  {session.user.name}
+                </p>
+                <p className="truncate text-xs text-muted-foreground">
+                  {session.user.email}
+                </p>
               </div>
-            )}
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium truncate">
-                {session.user.name}
-              </p>
-              <p className="text-xs text-neutral-500 dark:text-neutral-400 truncate">
-                {session.user.email}
-              </p>
             </div>
-          </div>
 
-          <button
-            onClick={() => {
-              void authClient.signOut()
-            }}
-            className="demo-button demo-button-secondary w-full"
-          >
-            Sign out
-          </button>
-
-          <p className="demo-muted text-center text-xs">
-            Built with{' '}
-            <a
-              href="https://better-auth.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-medium"
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={() => {
+                void authClient.signOut()
+              }}
             >
-              BETTER-AUTH
-            </a>
-            .
-          </p>
-        </section>
+              Sign out
+            </Button>
+          </CardContent>
+          <CardFooter className="justify-center">
+            <p className="text-center text-xs text-muted-foreground">
+              Built with{' '}
+              <a
+                href="https://better-auth.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium"
+              >
+                BETTER-AUTH
+              </a>
+              .
+            </p>
+          </CardFooter>
+        </Card>
       </main>
     )
   }
@@ -113,122 +134,110 @@ function BetterAuthDemo() {
   }
 
   return (
-    <main className="demo-page demo-center">
-      <section className="demo-panel w-full max-w-md">
-        <p className="island-kicker mb-2">Better Auth</p>
-        <h1 className="demo-title">
-          {isSignUp ? 'Create an account' : 'Sign in'}
-        </h1>
-        <p className="demo-muted mt-2 mb-6 text-sm">
-          {isSignUp
-            ? 'Enter your information to create an account'
-            : 'Enter your email below to login to your account'}
-        </p>
+    <main className="page-wrap flex min-h-[70vh] items-center justify-center px-4 py-14">
+      <Card className="w-full max-w-md rounded-2xl">
+        <CardHeader>
+          <p className="island-kicker mb-2">Better Auth</p>
+          <CardTitle className="display-title text-2xl">
+            {isSignUp ? 'Create an account' : 'Sign in'}
+          </CardTitle>
+          <CardDescription>
+            {isSignUp
+              ? 'Enter your information to create an account'
+              : 'Enter your email below to login to your account'}
+          </CardDescription>
+        </CardHeader>
 
-        <form onSubmit={handleSubmit} className="grid gap-4">
-          {isSignUp && (
+        <CardContent>
+          <form onSubmit={handleSubmit} className="grid gap-4">
+            {isSignUp && (
+              <div className="grid gap-2">
+                <Label htmlFor="name">Name</Label>
+                <Input
+                  id="name"
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+              </div>
+            )}
+
             <div className="grid gap-2">
-              <label
-                htmlFor="name"
-                className="text-sm font-medium leading-none"
-              >
-                Name
-              </label>
-              <input
-                id="name"
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="demo-input"
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>
-          )}
 
-          <div className="grid gap-2">
-            <label htmlFor="email" className="text-sm font-medium leading-none">
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="demo-input"
-              required
-            />
-          </div>
-
-          <div className="grid gap-2">
-            <label
-              htmlFor="password"
-              className="text-sm font-medium leading-none"
-            >
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="demo-input"
-              required
-              minLength={8}
-            />
-          </div>
-
-          {error && (
-            <div className="demo-alert demo-alert-danger">
-              <p className="text-sm text-red-600">{error}</p>
+            <div className="grid gap-2">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                minLength={8}
+              />
             </div>
-          )}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="demo-button w-full"
-          >
-            {loading ? (
-              <span className="flex items-center justify-center gap-2">
-                <span className="h-4 w-4 animate-spin rounded-full border-2 border-neutral-400 border-t-white dark:border-neutral-600 dark:border-t-neutral-900" />
-                <span>Please wait</span>
-              </span>
-            ) : isSignUp ? (
-              'Create account'
-            ) : (
-              'Sign in'
+            {error && (
+              <Alert variant="destructive">
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
             )}
-          </button>
-        </form>
 
-        <div className="mt-4 text-center">
-          <button
-            type="button"
-            onClick={() => {
-              setIsSignUp(!isSignUp)
-              setError('')
-            }}
-            className="demo-muted text-sm transition-colors hover:text-[var(--sea-ink)]"
-          >
-            {isSignUp
-              ? 'Already have an account? Sign in'
-              : "Don't have an account? Sign up"}
-          </button>
-        </div>
+            <Button type="submit" disabled={loading} className="w-full">
+              {loading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+                  <span>Please wait</span>
+                </span>
+              ) : isSignUp ? (
+                'Create account'
+              ) : (
+                'Sign in'
+              )}
+            </Button>
+          </form>
 
-        <p className="demo-muted mt-6 text-center text-xs">
-          Built with{' '}
-          <a
-            href="https://better-auth.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-medium"
-          >
-            BETTER-AUTH
-          </a>
-          .
-        </p>
-      </section>
+          <div className="mt-4 text-center">
+            <Button
+              type="button"
+              variant="link"
+              size="sm"
+              onClick={() => {
+                setIsSignUp(!isSignUp)
+                setError('')
+              }}
+            >
+              {isSignUp
+                ? 'Already have an account? Sign in'
+                : "Don't have an account? Sign up"}
+            </Button>
+          </div>
+        </CardContent>
+
+        <CardFooter className="justify-center">
+          <p className="text-center text-xs text-muted-foreground">
+            Built with{' '}
+            <a
+              href="https://better-auth.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium"
+            >
+              BETTER-AUTH
+            </a>
+            .
+          </p>
+        </CardFooter>
+      </Card>
     </main>
   )
 }

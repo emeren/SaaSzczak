@@ -1,6 +1,15 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 import { authClient } from '#/lib/auth-client'
+import { Button } from '#/components/ui/button'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '#/components/ui/card'
+import { Alert, AlertDescription } from '#/components/ui/alert'
 
 export const Route = createFileRoute('/demo/stripe')({
   component: DemoStripe,
@@ -30,40 +39,49 @@ function DemoStripe() {
   }
 
   return (
-    <main className="demo-page demo-center">
-      <section className="demo-panel w-full max-w-md">
-        <p className="island-kicker mb-2">Billing</p>
-        <h1 className="demo-title">Stripe Checkout Demo</h1>
-        <p className="demo-muted mt-2 mb-6 text-sm">
-          Set <code>STRIPE_SECRET_KEY</code>, <code>STRIPE_WEBHOOK_SECRET</code>{' '}
-          and <code>VITE_STRIPE_PRICE_ID</code> in <code>.env.local</code>, then
-          run{' '}
-          <code>
-            stripe listen --forward-to localhost:3000/api/stripe-webhook
-          </code>{' '}
-          locally to receive webhook events.
-        </p>
+    <main className="page-wrap flex min-h-[70vh] items-center justify-center px-4 py-14">
+      <Card className="w-full max-w-md rounded-2xl">
+        <CardHeader>
+          <p className="island-kicker mb-2">Billing</p>
+          <CardTitle className="display-title text-2xl">
+            Stripe Checkout Demo
+          </CardTitle>
+          <CardDescription>
+            Set <code>STRIPE_SECRET_KEY</code>,{' '}
+            <code>STRIPE_WEBHOOK_SECRET</code> and{' '}
+            <code>VITE_STRIPE_PRICE_ID</code> in <code>.env.local</code>, then
+            run{' '}
+            <code>
+              stripe listen --forward-to localhost:3000/api/stripe-webhook
+            </code>{' '}
+            locally to receive webhook events.
+          </CardDescription>
+        </CardHeader>
 
-        {!session?.user ? (
-          <p className="demo-alert demo-alert-danger text-sm">
-            Sign in first at <code>/demo/better-auth</code>.
-          </p>
-        ) : (
-          <button
-            onClick={handleCheckout}
-            disabled={loading}
-            className="demo-button w-full"
-          >
-            {loading ? 'Redirecting...' : 'Subscribe'}
-          </button>
-        )}
+        <CardContent className="space-y-4">
+          {!session?.user ? (
+            <Alert variant="destructive">
+              <AlertDescription>
+                Sign in first at <code>/demo/better-auth</code>.
+              </AlertDescription>
+            </Alert>
+          ) : (
+            <Button
+              onClick={handleCheckout}
+              disabled={loading}
+              className="w-full"
+            >
+              {loading ? 'Redirecting...' : 'Subscribe'}
+            </Button>
+          )}
 
-        {error && (
-          <div className="demo-alert demo-alert-danger mt-4">
-            <p className="text-sm text-red-600">{error}</p>
-          </div>
-        )}
-      </section>
+          {error && (
+            <Alert variant="destructive">
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
+        </CardContent>
+      </Card>
     </main>
   )
 }

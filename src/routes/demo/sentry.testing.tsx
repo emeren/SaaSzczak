@@ -1,16 +1,12 @@
-/**
- * FILE OVERVIEW:
- * Purpose: Interactive demo page showcasing Sentry's monitoring capabilities
- * Key Concepts: Error tracking, Performance monitoring, Session replay
- * Module Type: Route Component
- * @ai_context: Demonstrates Sentry features through interactive examples with educational context
- */
-
 import * as fs from 'node:fs/promises'
 import { createFileRoute } from '@tanstack/react-router'
 import { createServerFn } from '@tanstack/react-start'
 import * as Sentry from '@sentry/tanstackstart-react'
 import { useState, useEffect } from 'react'
+import { Button } from '#/components/ui/button'
+import { Card, CardContent } from '#/components/ui/card'
+import { Alert, AlertDescription, AlertTitle } from '#/components/ui/alert'
+import { Badge } from '#/components/ui/badge'
 
 export const Route = createFileRoute('/demo/sentry/testing')({
   component: RouteComponent,
@@ -19,12 +15,16 @@ export const Route = createFileRoute('/demo/sentry/testing')({
       Sentry.captureException(error)
     }, [error])
     return (
-      <main className="demo-page demo-center">
-        <section className="demo-panel text-center">
-          <SentryLogo />
-          <h1 className="mt-4 mb-2 text-2xl font-bold">Something went wrong</h1>
-          <p className="demo-muted">{error.message}</p>
-        </section>
+      <main className="page-wrap flex min-h-[70vh] items-center justify-center px-4 py-14">
+        <Card className="w-full max-w-md rounded-2xl p-8 text-center">
+          <div className="flex justify-center text-[var(--lagoon-deep)]">
+            <SentryLogo />
+          </div>
+          <h1 className="display-title mt-4 mb-2 text-2xl font-bold">
+            Something went wrong
+          </h1>
+          <p className="text-muted-foreground">{error.message}</p>
+        </Card>
       </main>
     )
   },
@@ -85,7 +85,7 @@ const goodServerFunc = createServerFn({
   )
 })
 
-// 3D Button Component inspired by Sentry wizard
+// Sentry action button with loading spinner
 function SentryButton({
   children,
   onClick,
@@ -100,15 +100,16 @@ function SentryButton({
   loading?: boolean
 }) {
   return (
-    <button
+    <Button
       type="button"
       onClick={onClick}
       disabled={disabled || loading}
-      className={`demo-button w-full px-6 py-4 text-base ${variant === 'error' ? 'demo-button-danger' : ''}`}
+      variant={variant === 'error' ? 'destructive' : 'default'}
+      className="w-full px-6 py-5 text-base"
     >
       {loading && (
         <svg
-          className="animate-spin h-5 w-5"
+          className="h-5 w-5 animate-spin"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
@@ -129,7 +130,7 @@ function SentryButton({
         </svg>
       )}
       {children}
-    </button>
+    </Button>
   )
 }
 
@@ -144,15 +145,17 @@ function FeatureCard({
   description: string
 }) {
   return (
-    <div className="demo-card transition-all group">
-      <div className="flex items-center gap-3 mb-2">
-        <div className="text-[var(--lagoon-deep)] group-hover:scale-110 transition-transform">
-          {icon}
+    <Card className="group rounded-xl transition-all hover:-translate-y-0.5">
+      <CardContent className="px-5">
+        <div className="mb-2 flex items-center gap-3">
+          <div className="text-[var(--lagoon-deep)] transition-transform group-hover:scale-110">
+            {icon}
+          </div>
+          <h3 className="font-semibold text-[var(--sea-ink)]">{title}</h3>
         </div>
-        <h3 className="font-semibold text-[var(--sea-ink)]">{title}</h3>
-      </div>
-      <p className="demo-muted pl-9 text-sm">{description}</p>
-    </div>
+        <p className="pl-9 text-sm text-muted-foreground">{description}</p>
+      </CardContent>
+    </Card>
   )
 }
 
@@ -178,9 +181,9 @@ function ResultBadge({
   return (
     <div className="mt-4 space-y-3">
       {type === 'error' && (
-        <div className="demo-alert demo-alert-danger flex items-center gap-2">
+        <Alert variant="destructive">
           <svg
-            className="w-5 h-5 text-[#9f3030]"
+            className="h-5 w-5"
             fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -191,16 +194,14 @@ function ResultBadge({
             <title>Error captured</title>
             <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
           </svg>
-          <span className="text-sm font-medium">
-            Error captured and sent to Sentry
-          </span>
-        </div>
+          <AlertTitle>Error captured and sent to Sentry</AlertTitle>
+        </Alert>
       )}
 
       {type === 'success' && (
-        <div className="demo-alert flex items-center gap-2">
+        <Alert>
           <svg
-            className="w-5 h-5 text-[var(--palm)]"
+            className="h-5 w-5 text-[var(--palm)]"
             fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -211,21 +212,19 @@ function ResultBadge({
             <title>Trace complete</title>
             <path d="M5 13l4 4L19 7" />
           </svg>
-          <span className="text-sm font-medium">
-            Trace completed successfully
-          </span>
-        </div>
+          <AlertTitle>Trace completed successfully</AlertTitle>
+        </Alert>
       )}
 
       <button
         type="button"
         onClick={handleCopy}
-        className="demo-list-item relative flex items-center gap-2 transition-all cursor-pointer w-full"
+        className="relative flex w-full cursor-pointer items-center gap-2 rounded-lg border border-border bg-muted/40 px-4 py-3 transition-all hover:bg-muted/60"
       >
-        <span className="demo-muted text-sm">span.op:</span>
+        <span className="text-sm text-muted-foreground">span.op:</span>
         <code className="font-mono text-sm">{spanOp}</code>
         <svg
-          className="w-4 h-4 demo-muted ml-auto"
+          className="ml-auto h-4 w-4 text-muted-foreground"
           fill="none"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -237,9 +236,9 @@ function ResultBadge({
           <path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
         </svg>
         {copied && (
-          <span className="demo-pill absolute -top-8 left-1/2 -translate-x-1/2 animate-pulse">
+          <Badge className="absolute -top-8 left-1/2 -translate-x-1/2 animate-pulse">
             Copied!
-          </span>
+          </Badge>
         )}
       </button>
     </div>
@@ -251,15 +250,15 @@ function ProgressBar({ loading }: { loading: boolean }) {
   return (
     <div className="mt-4 flex items-center gap-3">
       <div
-        className={`w-3 h-3 rounded-full transition-all ${loading ? 'bg-[var(--lagoon)] animate-pulse' : 'bg-[var(--palm)]'}`}
+        className={`h-3 w-3 rounded-full transition-all ${loading ? 'animate-pulse bg-[var(--lagoon)]' : 'bg-[var(--palm)]'}`}
       />
-      <div className="flex-1 h-2 bg-[var(--line)] rounded-full overflow-hidden">
+      <div className="h-2 flex-1 overflow-hidden rounded-full bg-[var(--line)]">
         <div
-          className="h-full bg-[var(--lagoon)] rounded-full transition-all duration-500"
+          className="h-full rounded-full bg-[var(--lagoon)] transition-all duration-500"
           style={{ width: loading ? '60%' : '100%' }}
         />
       </div>
-      <span className="demo-muted text-xs w-16 text-right">
+      <span className="w-16 text-right text-xs text-muted-foreground">
         {loading ? 'Running...' : 'Complete'}
       </span>
     </div>
@@ -364,21 +363,21 @@ function RouteComponent() {
   }
 
   return (
-    <main className="demo-page demo-page-wide">
+    <main className="page-wrap px-4 py-14">
       <div className="mx-auto max-w-5xl">
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-4 mb-8">
+        <div className="mb-16 text-center">
+          <div className="mb-8 inline-flex items-center gap-4">
             <div className="text-[var(--lagoon-deep)]">
               <SentryLogo size={56} />
             </div>
             <div className="text-left">
-              <h1 className="demo-title">Sentry Demo</h1>
-              <p className="demo-muted text-sm">
+              <h1 className="display-title text-3xl font-bold">Sentry Demo</h1>
+              <p className="text-sm text-muted-foreground">
                 Error monitoring & performance tracing
               </p>
             </div>
           </div>
-          <p className="demo-muted mx-auto max-w-xl text-lg leading-relaxed">
+          <p className="mx-auto max-w-xl text-lg leading-relaxed text-muted-foreground">
             Click the buttons below to trigger errors and traces, then view them
             in your{' '}
             <a
@@ -394,9 +393,9 @@ function RouteComponent() {
 
         {/* Sentry Not Initialized Warning */}
         {showWarning && (
-          <div className="demo-alert mb-8 flex items-center gap-3">
+          <Alert className="mb-8">
             <svg
-              className="w-6 h-6 text-[var(--sea-ink-soft)] flex-shrink-0"
+              className="h-6 w-6 shrink-0 text-[var(--sea-ink-soft)]"
               fill="none"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -407,21 +406,19 @@ function RouteComponent() {
               <title>Warning</title>
               <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
-            <div>
-              <p className="font-medium">Sentry is not initialized</p>
-              <p className="demo-muted text-sm mt-1">
-                Set the <code>VITE_SENTRY_DSN</code> environment variable to
-                enable error tracking and performance monitoring.
-              </p>
-            </div>
-          </div>
+            <AlertTitle>Sentry is not initialized</AlertTitle>
+            <AlertDescription>
+              Set the <code>VITE_SENTRY_DSN</code> environment variable to
+              enable error tracking and performance monitoring.
+            </AlertDescription>
+          </Alert>
         )}
 
         {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-12">
+        <div className="mb-12 grid grid-cols-1 gap-4 md:grid-cols-4">
           <FeatureCard
             icon={
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
               </svg>
             }
@@ -430,7 +427,7 @@ function RouteComponent() {
           />
           <FeatureCard
             icon={
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M13 3v18h-2V3h2zm6 6v12h-2V9h2zM7 14v7H5v-7h2z" />
               </svg>
             }
@@ -439,7 +436,7 @@ function RouteComponent() {
           />
           <FeatureCard
             icon={
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z" />
               </svg>
             }
@@ -448,7 +445,7 @@ function RouteComponent() {
           />
           <FeatureCard
             icon={
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z" />
               </svg>
             }
@@ -458,115 +455,123 @@ function RouteComponent() {
         </div>
 
         {/* Testing Panels */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           {/* Client-Side Panel */}
-          <div className="demo-panel">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-3 h-3 rounded-full bg-[var(--palm)]" />
-              <h2 className="demo-section-title">Client-Side Testing</h2>
-            </div>
-
-            <div className="space-y-4">
-              <div>
-                <SentryButton
-                  variant="error"
-                  onClick={handleClientError}
-                  loading={isLoading.clientError}
-                  disabled={sentryConfigured === false}
-                >
-                  Trigger Client Error
-                </SentryButton>
-                {isLoading.clientError && (
-                  <ProgressBar loading={isLoading.clientError} />
-                )}
-                {results.clientError && !isLoading.clientError && (
-                  <ResultBadge
-                    type={results.clientError.type}
-                    spanOp={results.clientError.spanOp}
-                    onCopy={() => {}}
-                  />
-                )}
+          <Card className="rounded-2xl">
+            <CardContent>
+              <div className="mb-6 flex items-center gap-3">
+                <div className="h-3 w-3 rounded-full bg-[var(--palm)]" />
+                <h2 className="display-title text-lg font-semibold">
+                  Client-Side Testing
+                </h2>
               </div>
 
-              <div>
-                <SentryButton
-                  variant="primary"
-                  onClick={handleClientTrace}
-                  loading={isLoading.clientTrace}
-                  disabled={sentryConfigured === false}
-                >
-                  Test Client Trace
-                </SentryButton>
-                {isLoading.clientTrace && (
-                  <ProgressBar loading={isLoading.clientTrace} />
-                )}
-                {results.clientTrace && !isLoading.clientTrace && (
-                  <ResultBadge
-                    type={results.clientTrace.type}
-                    spanOp={results.clientTrace.spanOp}
-                    onCopy={() => {}}
-                  />
-                )}
+              <div className="space-y-4">
+                <div>
+                  <SentryButton
+                    variant="error"
+                    onClick={handleClientError}
+                    loading={isLoading.clientError}
+                    disabled={sentryConfigured === false}
+                  >
+                    Trigger Client Error
+                  </SentryButton>
+                  {isLoading.clientError && (
+                    <ProgressBar loading={isLoading.clientError} />
+                  )}
+                  {results.clientError && !isLoading.clientError && (
+                    <ResultBadge
+                      type={results.clientError.type}
+                      spanOp={results.clientError.spanOp}
+                      onCopy={() => {}}
+                    />
+                  )}
+                </div>
+
+                <div>
+                  <SentryButton
+                    variant="primary"
+                    onClick={handleClientTrace}
+                    loading={isLoading.clientTrace}
+                    disabled={sentryConfigured === false}
+                  >
+                    Test Client Trace
+                  </SentryButton>
+                  {isLoading.clientTrace && (
+                    <ProgressBar loading={isLoading.clientTrace} />
+                  )}
+                  {results.clientTrace && !isLoading.clientTrace && (
+                    <ResultBadge
+                      type={results.clientTrace.type}
+                      spanOp={results.clientTrace.spanOp}
+                      onCopy={() => {}}
+                    />
+                  )}
+                </div>
               </div>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
 
           {/* Server-Side Panel */}
-          <div className="demo-panel">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-3 h-3 rounded-full bg-[var(--lagoon)]" />
-              <h2 className="demo-section-title">Server-Side Testing</h2>
-            </div>
-
-            <div className="space-y-4">
-              <div>
-                <SentryButton
-                  variant="error"
-                  onClick={handleServerError}
-                  loading={isLoading.serverError}
-                  disabled={sentryConfigured === false}
-                >
-                  Trigger Server Error
-                </SentryButton>
-                {isLoading.serverError && (
-                  <ProgressBar loading={isLoading.serverError} />
-                )}
-                {results.serverError && !isLoading.serverError && (
-                  <ResultBadge
-                    type={results.serverError.type}
-                    spanOp={results.serverError.spanOp}
-                    onCopy={() => {}}
-                  />
-                )}
+          <Card className="rounded-2xl">
+            <CardContent>
+              <div className="mb-6 flex items-center gap-3">
+                <div className="h-3 w-3 rounded-full bg-[var(--lagoon)]" />
+                <h2 className="display-title text-lg font-semibold">
+                  Server-Side Testing
+                </h2>
               </div>
 
-              <div>
-                <SentryButton
-                  variant="primary"
-                  onClick={handleServerTrace}
-                  loading={isLoading.serverTrace}
-                  disabled={sentryConfigured === false}
-                >
-                  Test Server Trace
-                </SentryButton>
-                {isLoading.serverTrace && (
-                  <ProgressBar loading={isLoading.serverTrace} />
-                )}
-                {results.serverTrace && !isLoading.serverTrace && (
-                  <ResultBadge
-                    type={results.serverTrace.type}
-                    spanOp={results.serverTrace.spanOp}
-                    onCopy={() => {}}
-                  />
-                )}
+              <div className="space-y-4">
+                <div>
+                  <SentryButton
+                    variant="error"
+                    onClick={handleServerError}
+                    loading={isLoading.serverError}
+                    disabled={sentryConfigured === false}
+                  >
+                    Trigger Server Error
+                  </SentryButton>
+                  {isLoading.serverError && (
+                    <ProgressBar loading={isLoading.serverError} />
+                  )}
+                  {results.serverError && !isLoading.serverError && (
+                    <ResultBadge
+                      type={results.serverError.type}
+                      spanOp={results.serverError.spanOp}
+                      onCopy={() => {}}
+                    />
+                  )}
+                </div>
+
+                <div>
+                  <SentryButton
+                    variant="primary"
+                    onClick={handleServerTrace}
+                    loading={isLoading.serverTrace}
+                    disabled={sentryConfigured === false}
+                  >
+                    Test Server Trace
+                  </SentryButton>
+                  {isLoading.serverTrace && (
+                    <ProgressBar loading={isLoading.serverTrace} />
+                  )}
+                  {results.serverTrace && !isLoading.serverTrace && (
+                    <ResultBadge
+                      type={results.serverTrace.type}
+                      spanOp={results.serverTrace.spanOp}
+                      onCopy={() => {}}
+                    />
+                  )}
+                </div>
               </div>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Footer Note */}
         <div className="mt-12 text-center">
-          <p className="demo-muted text-sm">
+          <p className="text-sm text-muted-foreground">
             This page uses <code>@sentry/tanstackstart-react</code> for
             full-stack error monitoring.
             <br />

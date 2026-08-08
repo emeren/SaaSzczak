@@ -16,18 +16,18 @@ export const Route = createFileRoute('/integrations/stripe')({
 })
 
 function DemoStripe() {
-  const { data: session } = authClient.useSession()
+  const { data: session, isPending } = authClient.useSession()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
-  const handleCheckout = async () => {
+  const handleCheckout = async (plan: 'monthly' | 'yearly') => {
     setError('')
     setLoading(true)
     try {
       const res = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ priceId: import.meta.env.VITE_STRIPE_PRICE_ID }),
+        body: JSON.stringify({ plan }),
       })
       if (!res.ok) throw new Error(await res.text())
       const { url } = (await res.json()) as { url: string }
@@ -59,7 +59,11 @@ function DemoStripe() {
             </code>{' '}
             and{' '}
             <code className="rounded border border-border bg-muted px-1.5 py-0.5 text-[0.9em]">
-              VITE_STRIPE_PRICE_ID
+              STRIPE_PRICE_ID_MONTHLY
+            </code>
+            /
+            <code className="rounded border border-border bg-muted px-1.5 py-0.5 text-[0.9em]">
+              STRIPE_PRICE_ID_YEARLY
             </code>{' '}
             in{' '}
             <code className="rounded border border-border bg-muted px-1.5 py-0.5 text-[0.9em]">
@@ -74,7 +78,11 @@ function DemoStripe() {
         </CardHeader>
 
         <CardContent className="space-y-4">
-          {!session?.user ? (
+          {isPending ? (
+            <div className="flex justify-center py-2">
+              <div className="h-5 w-5 animate-spin rounded-full border-2 border-border border-t-primary" />
+            </div>
+          ) : !session?.user ? (
             <Alert variant="destructive">
               <AlertDescription>
                 Sign in first at{' '}
@@ -85,13 +93,23 @@ function DemoStripe() {
               </AlertDescription>
             </Alert>
           ) : (
-            <Button
-              onClick={handleCheckout}
-              disabled={loading}
-              className="w-full"
-            >
-              {loading ? 'Redirecting...' : 'Subscribe'}
-            </Button>
+            <div className="flex gap-2">
+              <Button
+                onClick={() => handleCheckout('monthly')}
+                disabled={loading}
+                className="flex-1"
+              >
+                {loading ? 'Redirecting...' : 'Monthly'}
+              </Button>
+              <Button
+                onClick={() => handleCheckout('yearly')}
+                disabled={loading}
+                variant="secondary"
+                className="flex-1"
+              >
+                {loading ? 'Redirecting...' : 'Yearly'}
+              </Button>
+            </div>
           )}
 
           {error && (

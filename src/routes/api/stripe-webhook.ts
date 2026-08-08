@@ -19,7 +19,9 @@ async function upsertSubscription(sub: Stripe.Subscription) {
     stripeSubscriptionId: sub.id,
     stripePriceId: sub.items.data[0]?.price.id,
     status: sub.status,
-    currentPeriodEnd: new Date(sub.items.data[0].current_period_end * 1000),
+    currentPeriodEnd: sub.items.data[0]?.current_period_end
+      ? new Date(sub.items.data[0].current_period_end * 1000)
+      : null,
     updatedAt: new Date(),
   }
 

@@ -27,7 +27,8 @@ pnpm dev
    want versioned migrations instead of push).
 4. **Stripe**: create a product/price in the
    [Stripe dashboard](https://dashboard.stripe.com/test/products), set
-   `STRIPE_SECRET_KEY` and `VITE_STRIPE_PRICE_ID`. For local webhook testing:
+   `STRIPE_SECRET_KEY`, `STRIPE_PRICE_ID_MONTHLY` and `STRIPE_PRICE_ID_YEARLY`.
+   For local webhook testing:
    `stripe listen --forward-to localhost:3000/api/stripe-webhook` and copy the
    printed `whsec_...` into `STRIPE_WEBHOOK_SECRET`.
 5. **Resend**: get an API key at [resend.com/api-keys](https://resend.com/api-keys),
@@ -106,10 +107,14 @@ pnpm dlx shadcn@latest add button
 
 ## Setting up Stripe
 
-1. Create a product and price in the
+1. Create a product with a monthly and a yearly price in the
    [Stripe dashboard](https://dashboard.stripe.com/test/products) (test mode
    to start).
-2. Set `STRIPE_SECRET_KEY` and `VITE_STRIPE_PRICE_ID` in `.env.local`.
+2. Set `STRIPE_SECRET_KEY`, `STRIPE_PRICE_ID_MONTHLY` and
+   `STRIPE_PRICE_ID_YEARLY` in `.env.local`. These are server-only (no
+   `VITE_` prefix) — the client only ever sends a `plan: 'monthly' | 'yearly'`
+   choice, never a raw price ID, so `/api/checkout` can't be used to check
+   out an arbitrary Stripe price.
 3. Forward webhooks locally with the
    [Stripe CLI](https://docs.stripe.com/stripe-cli):
    ```bash

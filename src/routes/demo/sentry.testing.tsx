@@ -15,12 +15,12 @@ export const Route = createFileRoute('/demo/sentry/testing')({
       Sentry.captureException(error)
     }, [error])
     return (
-      <main className="page-wrap flex min-h-[70vh] items-center justify-center px-4 py-14">
+      <main className="mx-auto flex min-h-[70vh] w-[min(1080px,calc(100%-2rem))] items-center justify-center px-4 py-14">
         <Card className="w-full max-w-md rounded-2xl p-8 text-center">
-          <div className="flex justify-center text-[var(--lagoon-deep)]">
+          <div className="flex justify-center text-primary">
             <SentryLogo />
           </div>
-          <h1 className="display-title mt-4 mb-2 text-2xl font-bold">
+          <h1 className="mt-4 mb-2 font-serif text-2xl font-bold">
             Something went wrong
           </h1>
           <p className="text-muted-foreground">{error.message}</p>
@@ -148,10 +148,10 @@ function FeatureCard({
     <Card className="group rounded-xl transition-all hover:-translate-y-0.5">
       <CardContent className="px-5">
         <div className="mb-2 flex items-center gap-3">
-          <div className="text-[var(--lagoon-deep)] transition-transform group-hover:scale-110">
+          <div className="text-primary transition-transform group-hover:scale-110">
             {icon}
           </div>
-          <h3 className="font-semibold text-[var(--sea-ink)]">{title}</h3>
+          <h3 className="font-semibold text-foreground">{title}</h3>
         </div>
         <p className="pl-9 text-sm text-muted-foreground">{description}</p>
       </CardContent>
@@ -201,7 +201,7 @@ function ResultBadge({
       {type === 'success' && (
         <Alert>
           <svg
-            className="h-5 w-5 text-[var(--palm)]"
+            className="h-5 w-5 text-primary"
             fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -250,11 +250,11 @@ function ProgressBar({ loading }: { loading: boolean }) {
   return (
     <div className="mt-4 flex items-center gap-3">
       <div
-        className={`h-3 w-3 rounded-full transition-all ${loading ? 'animate-pulse bg-[var(--lagoon)]' : 'bg-[var(--palm)]'}`}
+        className={`h-3 w-3 rounded-full bg-primary transition-all ${loading ? 'animate-pulse' : ''}`}
       />
-      <div className="h-2 flex-1 overflow-hidden rounded-full bg-[var(--line)]">
+      <div className="h-2 flex-1 overflow-hidden rounded-full bg-muted">
         <div
-          className="h-full rounded-full bg-[var(--lagoon)] transition-all duration-500"
+          className="h-full rounded-full bg-primary transition-all duration-500"
           style={{ width: loading ? '60%' : '100%' }}
         />
       </div>
@@ -363,15 +363,15 @@ function RouteComponent() {
   }
 
   return (
-    <main className="page-wrap px-4 py-14">
+    <main className="mx-auto w-[min(1080px,calc(100%-2rem))] px-4 py-14">
       <div className="mx-auto max-w-5xl">
         <div className="mb-16 text-center">
           <div className="mb-8 inline-flex items-center gap-4">
-            <div className="text-[var(--lagoon-deep)]">
+            <div className="text-primary">
               <SentryLogo size={56} />
             </div>
             <div className="text-left">
-              <h1 className="display-title text-3xl font-bold">Sentry Demo</h1>
+              <h1 className="font-serif text-3xl font-bold">Sentry Demo</h1>
               <p className="text-sm text-muted-foreground">
                 Error monitoring & performance tracing
               </p>
@@ -384,6 +384,7 @@ function RouteComponent() {
               href="https://sentry.io"
               target="_blank"
               rel="noopener noreferrer"
+              className="text-primary underline underline-offset-2 hover:text-primary/80"
             >
               Sentry dashboard
             </a>
@@ -395,7 +396,7 @@ function RouteComponent() {
         {showWarning && (
           <Alert className="mb-8">
             <svg
-              className="h-6 w-6 shrink-0 text-[var(--sea-ink-soft)]"
+              className="h-6 w-6 shrink-0 text-muted-foreground"
               fill="none"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -408,8 +409,12 @@ function RouteComponent() {
             </svg>
             <AlertTitle>Sentry is not initialized</AlertTitle>
             <AlertDescription>
-              Set the <code>VITE_SENTRY_DSN</code> environment variable to
-              enable error tracking and performance monitoring.
+              Set the{' '}
+              <code className="rounded border border-border bg-muted px-1.5 py-0.5 text-[0.9em]">
+                VITE_SENTRY_DSN
+              </code>{' '}
+              environment variable to enable error tracking and performance
+              monitoring.
             </AlertDescription>
           </Alert>
         )}
@@ -460,8 +465,8 @@ function RouteComponent() {
           <Card className="rounded-2xl">
             <CardContent>
               <div className="mb-6 flex items-center gap-3">
-                <div className="h-3 w-3 rounded-full bg-[var(--palm)]" />
-                <h2 className="display-title text-lg font-semibold">
+                <div className="h-3 w-3 rounded-full bg-primary" />
+                <h2 className="font-serif text-lg font-semibold">
                   Client-Side Testing
                 </h2>
               </div>
@@ -516,8 +521,8 @@ function RouteComponent() {
           <Card className="rounded-2xl">
             <CardContent>
               <div className="mb-6 flex items-center gap-3">
-                <div className="h-3 w-3 rounded-full bg-[var(--lagoon)]" />
-                <h2 className="display-title text-lg font-semibold">
+                <div className="h-3 w-3 rounded-full bg-primary" />
+                <h2 className="font-serif text-lg font-semibold">
                   Server-Side Testing
                 </h2>
               </div>
@@ -572,13 +577,17 @@ function RouteComponent() {
         {/* Footer Note */}
         <div className="mt-12 text-center">
           <p className="text-sm text-muted-foreground">
-            This page uses <code>@sentry/tanstackstart-react</code> for
-            full-stack error monitoring.
+            This page uses{' '}
+            <code className="rounded border border-border bg-muted px-1.5 py-0.5 text-[0.9em]">
+              @sentry/tanstackstart-react
+            </code>{' '}
+            for full-stack error monitoring.
             <br />
             <a
               href="https://docs.sentry.io/platforms/javascript/guides/tanstackstart-react/"
               target="_blank"
               rel="noopener noreferrer"
+              className="text-primary underline underline-offset-2 hover:text-primary/80"
             >
               Read the documentation →
             </a>

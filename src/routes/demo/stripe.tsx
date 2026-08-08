@@ -39,19 +39,34 @@ function DemoStripe() {
   }
 
   return (
-    <main className="page-wrap flex min-h-[70vh] items-center justify-center px-4 py-14">
+    <main className="mx-auto flex min-h-[70vh] w-[min(1080px,calc(100%-2rem))] items-center justify-center px-4 py-14">
       <Card className="w-full max-w-md rounded-2xl">
         <CardHeader>
-          <p className="island-kicker mb-2">Billing</p>
-          <CardTitle className="display-title text-2xl">
+          <p className="mb-2 text-xs font-bold uppercase tracking-widest text-primary">
+            Billing
+          </p>
+          <CardTitle className="font-serif text-2xl">
             Stripe Checkout Demo
           </CardTitle>
           <CardDescription>
-            Set <code>STRIPE_SECRET_KEY</code>,{' '}
-            <code>STRIPE_WEBHOOK_SECRET</code> and{' '}
-            <code>VITE_STRIPE_PRICE_ID</code> in <code>.env.local</code>, then
-            run{' '}
-            <code>
+            Set{' '}
+            <code className="rounded border border-border bg-muted px-1.5 py-0.5 text-[0.9em]">
+              STRIPE_SECRET_KEY
+            </code>
+            ,{' '}
+            <code className="rounded border border-border bg-muted px-1.5 py-0.5 text-[0.9em]">
+              STRIPE_WEBHOOK_SECRET
+            </code>{' '}
+            and{' '}
+            <code className="rounded border border-border bg-muted px-1.5 py-0.5 text-[0.9em]">
+              VITE_STRIPE_PRICE_ID
+            </code>{' '}
+            in{' '}
+            <code className="rounded border border-border bg-muted px-1.5 py-0.5 text-[0.9em]">
+              .env.local
+            </code>
+            , then run{' '}
+            <code className="rounded border border-border bg-muted px-1.5 py-0.5 text-[0.9em]">
               stripe listen --forward-to localhost:3000/api/stripe-webhook
             </code>{' '}
             locally to receive webhook events.
@@ -62,7 +77,11 @@ function DemoStripe() {
           {!session?.user ? (
             <Alert variant="destructive">
               <AlertDescription>
-                Sign in first at <code>/demo/better-auth</code>.
+                Sign in first at{' '}
+                <code className="rounded border border-border bg-muted px-1.5 py-0.5 text-[0.9em]">
+                  /demo/better-auth
+                </code>
+                .
               </AlertDescription>
             </Alert>
           ) : (

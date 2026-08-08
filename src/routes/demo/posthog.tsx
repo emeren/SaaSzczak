@@ -30,11 +30,13 @@ function PostHogDemo() {
   }
 
   return (
-    <main className="page-wrap flex min-h-[70vh] items-center justify-center px-4 py-14">
+    <main className="mx-auto flex min-h-[70vh] w-[min(1080px,calc(100%-2rem))] items-center justify-center px-4 py-14">
       <Card className="w-full max-w-md rounded-2xl">
         <CardHeader>
-          <p className="island-kicker mb-2">Analytics</p>
-          <CardTitle className="display-title text-2xl">PostHog Demo</CardTitle>
+          <p className="mb-2 text-xs font-bold uppercase tracking-widest text-primary">
+            Analytics
+          </p>
+          <CardTitle className="font-serif text-2xl">PostHog Demo</CardTitle>
         </CardHeader>
 
         <CardContent className="space-y-4">
@@ -43,7 +45,10 @@ function PostHogDemo() {
               <AlertDescription>
                 <strong>Warning:</strong> VITE_POSTHOG_KEY is not configured.
                 Events won't be sent to PostHog. Add it to your{' '}
-                <code>.env</code> file.
+                <code className="rounded border border-border bg-muted px-1.5 py-0.5 text-[0.9em]">
+                  .env
+                </code>{' '}
+                file.
               </AlertDescription>
             </Alert>
           )}
@@ -79,6 +84,7 @@ function PostHogDemo() {
               href="https://app.posthog.com/events"
               target="_blank"
               rel="noopener noreferrer"
+              className="text-primary underline underline-offset-2 hover:text-primary/80"
             >
               PostHog Events
             </a>{' '}
@@ -91,6 +97,7 @@ function PostHogDemo() {
               href="https://posthog.com/docs/libraries/react"
               target="_blank"
               rel="noopener noreferrer"
+              className="text-primary underline underline-offset-2 hover:text-primary/80"
             >
               PostHog React docs
             </a>

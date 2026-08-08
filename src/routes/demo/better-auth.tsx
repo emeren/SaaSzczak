@@ -29,7 +29,7 @@ function BetterAuthDemo() {
 
   if (isPending) {
     return (
-      <main className="page-wrap flex min-h-[70vh] items-center justify-center px-4">
+      <main className="mx-auto flex min-h-[70vh] w-[min(1080px,calc(100%-2rem))] items-center justify-center px-4">
         <div className="h-5 w-5 animate-spin rounded-full border-2 border-border border-t-primary" />
       </main>
     )
@@ -37,13 +37,13 @@ function BetterAuthDemo() {
 
   if (session?.user) {
     return (
-      <main className="page-wrap flex min-h-[70vh] items-center justify-center px-4 py-14">
+      <main className="mx-auto w-[min(1080px,calc(100%-2rem))] flex min-h-[70vh] items-center justify-center px-4 py-14">
         <Card className="w-full max-w-md rounded-2xl">
           <CardHeader>
-            <p className="island-kicker mb-2">Better Auth</p>
-            <CardTitle className="display-title text-2xl">
-              Welcome back
-            </CardTitle>
+            <p className="mb-2 text-xs font-bold uppercase tracking-widest text-primary">
+              Better Auth
+            </p>
+            <CardTitle className="font-serif text-2xl">Welcome back</CardTitle>
             <CardDescription>
               You're signed in as {session.user.email}
             </CardDescription>
@@ -90,7 +90,7 @@ function BetterAuthDemo() {
                 href="https://better-auth.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-medium"
+                className="font-medium text-primary underline underline-offset-2 hover:text-primary/80"
               >
                 BETTER-AUTH
               </a>
@@ -134,11 +134,13 @@ function BetterAuthDemo() {
   }
 
   return (
-    <main className="page-wrap flex min-h-[70vh] items-center justify-center px-4 py-14">
+    <main className="mx-auto w-[min(1080px,calc(100%-2rem))] flex min-h-[70vh] items-center justify-center px-4 py-14">
       <Card className="w-full max-w-md rounded-2xl">
         <CardHeader>
-          <p className="island-kicker mb-2">Better Auth</p>
-          <CardTitle className="display-title text-2xl">
+          <p className="mb-2 text-xs font-bold uppercase tracking-widest text-primary">
+            Better Auth
+          </p>
+          <CardTitle className="font-serif text-2xl">
             {isSignUp ? 'Create an account' : 'Sign in'}
           </CardTitle>
           <CardDescription>

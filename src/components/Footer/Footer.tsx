@@ -1,20 +1,24 @@
-export default function Footer() {
+import { memo } from 'react'
+import { FooterStyles as styles } from './Footer.styles'
+import type { FooterProps } from './Footer.types'
+
+export const Footer = memo<FooterProps>(() => {
   const year = new Date().getFullYear()
 
   return (
-    <footer className="mt-20 border-t border-[var(--line)] px-4 pb-14 pt-10 text-[var(--sea-ink-soft)]">
-      <div className="page-wrap flex flex-col items-center justify-between gap-4 text-center sm:flex-row sm:text-left">
-        <p className="m-0 text-sm">
+    <footer className={styles.Root}>
+      <div className={styles.Inner}>
+        <p className={styles.Copyright}>
           &copy; {year} Your name here. All rights reserved.
         </p>
-        <p className="island-kicker m-0">Built with TanStack Start</p>
+        <p className={styles.Kicker}>Built with TanStack Start</p>
       </div>
-      <div className="mt-4 flex justify-center gap-4">
+      <div className={styles.Socials}>
         <a
           href="https://x.com/tan_stack"
           target="_blank"
           rel="noreferrer"
-          className="rounded-xl p-2 text-[var(--sea-ink-soft)] transition hover:bg-[var(--link-bg-hover)] hover:text-[var(--sea-ink)]"
+          className={styles.SocialLink}
         >
           <span className="sr-only">Follow TanStack on X</span>
           <svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32">
@@ -28,7 +32,7 @@ export default function Footer() {
           href="https://github.com/TanStack"
           target="_blank"
           rel="noreferrer"
-          className="rounded-xl p-2 text-[var(--sea-ink-soft)] transition hover:bg-[var(--link-bg-hover)] hover:text-[var(--sea-ink)]"
+          className={styles.SocialLink}
         >
           <span className="sr-only">Go to TanStack GitHub</span>
           <svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32">
@@ -41,4 +45,6 @@ export default function Footer() {
       </div>
     </footer>
   )
-}
+})
+
+Footer.displayName = 'Footer'

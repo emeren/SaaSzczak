@@ -50,22 +50,22 @@ function DemoDrizzle() {
   }
 
   return (
-    <main className="page-wrap flex min-h-[70vh] items-center justify-center px-4 py-14">
+    <main className="mx-auto flex min-h-[70vh] w-[min(1080px,calc(100%-2rem))] items-center justify-center px-4 py-14">
       <Card className="w-full max-w-2xl rounded-2xl">
         <CardHeader className="flex-row items-center gap-4 space-y-0">
           <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border border-border bg-card p-3">
             <img src="/drizzle.svg" alt="Drizzle Logo" className="h-8 w-8" />
           </span>
           <div>
-            <p className="island-kicker mb-2">Database</p>
-            <CardTitle className="display-title text-2xl">
-              Drizzle Demo
-            </CardTitle>
+            <p className="mb-2 text-xs font-bold uppercase tracking-widest text-primary">
+              Database
+            </p>
+            <CardTitle className="font-serif text-2xl">Drizzle Demo</CardTitle>
           </div>
         </CardHeader>
 
         <CardContent>
-          <h2 className="display-title mb-4 text-lg font-semibold">Todos</h2>
+          <h2 className="mb-4 font-serif text-lg font-semibold">Todos</h2>
 
           <ul className="mb-6 space-y-3">
             {todoList.map((todo) => (
@@ -104,7 +104,7 @@ function DemoDrizzle() {
           </form>
 
           <div className="mt-8 rounded-xl border border-border bg-muted/30 p-5">
-            <h3 className="display-title mb-2 text-base font-semibold">
+            <h3 className="mb-2 font-serif text-base font-semibold">
               Powered by Drizzle ORM
             </h3>
             <p className="mb-4 text-sm text-muted-foreground">
@@ -114,16 +114,29 @@ function DemoDrizzle() {
               <p className="font-medium">Setup Instructions:</p>
               <ol className="list-inside list-decimal space-y-2 text-muted-foreground">
                 <li>
-                  Configure your <code>DATABASE_URL</code> in .env.local
+                  Configure your{' '}
+                  <code className="rounded border border-border bg-muted px-1.5 py-0.5 text-[0.9em]">
+                    DATABASE_URL
+                  </code>{' '}
+                  in .env.local
                 </li>
                 <li>
-                  Run: <code>pnpm dlx drizzle-kit generate</code>
+                  Run:{' '}
+                  <code className="rounded border border-border bg-muted px-1.5 py-0.5 text-[0.9em]">
+                    pnpm dlx drizzle-kit generate
+                  </code>
                 </li>
                 <li>
-                  Run: <code>pnpm dlx drizzle-kit migrate</code>
+                  Run:{' '}
+                  <code className="rounded border border-border bg-muted px-1.5 py-0.5 text-[0.9em]">
+                    pnpm dlx drizzle-kit migrate
+                  </code>
                 </li>
                 <li>
-                  Optional: <code>pnpm dlx drizzle-kit studio</code>
+                  Optional:{' '}
+                  <code className="rounded border border-border bg-muted px-1.5 py-0.5 text-[0.9em]">
+                    pnpm dlx drizzle-kit studio
+                  </code>
                 </li>
               </ol>
             </div>

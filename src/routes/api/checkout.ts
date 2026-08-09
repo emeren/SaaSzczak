@@ -1,17 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { auth } from '#/lib/auth'
 import { stripe } from '#/lib/stripe'
-
-const PRICE_IDS = {
-  monthly: process.env.STRIPE_PRICE_ID_MONTHLY,
-  yearly: process.env.STRIPE_PRICE_ID_YEARLY,
-} as const
-
-type Plan = keyof typeof PRICE_IDS
-
-function isPlan(value: unknown): value is Plan {
-  return value === 'monthly' || value === 'yearly'
-}
+import { isPlan, resolvePriceId } from '#/lib/checkout-plan'
 
 export const Route = createFileRoute('/api/checkout')({
   server: {
@@ -29,7 +19,7 @@ export const Route = createFileRoute('/api/checkout')({
           return new Response('Invalid plan', { status: 400 })
         }
 
-        const priceId = PRICE_IDS[body.plan]
+        const priceId = resolvePriceId(body.plan)
         if (!priceId) {
           return new Response('Plan not configured', { status: 500 })
         }
